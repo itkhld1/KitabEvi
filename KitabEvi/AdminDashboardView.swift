@@ -43,7 +43,6 @@ struct AdminDashboardView: View {
                             Divider()
                         }
                     }
-                    .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(10)
                     .padding(.horizontal)
                     
