@@ -6,3 +6,29 @@
 //
 
 import Foundation
+
+// user model
+enum UserRole {
+    case admin
+    case customer
+}
+
+struct User {
+    let username: String
+    let role: UserRole
+}
+
+// book model
+struct Book: Identifiable {
+    let id = UUID()
+    var title: String
+    var author: String
+    var price: Double
+}
+
+// analytics model
+struct Stat: Identifiable {
+    let id = UUID()
+    let month: String
+    let amount: Double
+}
