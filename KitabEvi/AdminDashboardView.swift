@@ -25,6 +25,11 @@ struct AdminDashboardView: View {
                         ForEach(inventoryVM.books) { book in
                             NavigationLink(destination: EditBookView(inventoryVM: inventoryVM, bookID: book.id)) {
                                 HStack {
+                                    Image(book.imageName)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 35, height: 50)
+                                        .cornerRadius(4)
                                     VStack(alignment: .leading) {
                                         Text(book.title).font(.body).foregroundColor(.primary)
                                         Text(book.author).font(.caption).foregroundColor(.secondary)

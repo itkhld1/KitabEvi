@@ -24,6 +24,7 @@ struct Book: Identifiable {
     var title: String
     var author: String
     var price: Double
+    var imageName: String
 }
 
 // analytics model

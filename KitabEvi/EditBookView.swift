@@ -18,12 +18,14 @@ struct EditBookView: View {
     @State private var title: String = ""
     @State private var author: String = ""
     @State private var price: Double = 0.0
+    @State private var imageName: String = ""
     
     private func loadBook() {
         if let book = inventoryVM.books.first(where: { $0.id == bookID }) {
             title = book.title
             author = book.author
             price = book.price
+            imageName = book.imageName
         }
     }
     
@@ -36,10 +38,12 @@ struct EditBookView: View {
                 // number formatter for price
                 TextField("Price", value: $price, format: .currency(code: "USD"))
                     .keyboardType(.decimalPad)
+                
+                TextField("Image asset name", text: $imageName)
             }
             
             Button("Save Changes") {
-                inventoryVM.updateBook(id: bookID, newTitle: title, newAuthor: author, newPrice: price)
+                inventoryVM.updateBook(id: bookID, newTitle: title, newAuthor: author, newPrice: price, newImageName: imageName)
                 dismiss()
             }
             .frame(maxWidth: .infinity, alignment: .center)

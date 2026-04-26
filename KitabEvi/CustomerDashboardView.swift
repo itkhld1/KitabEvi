@@ -38,17 +38,25 @@ struct CustomerDashboardView: View {
                         Text("Available Collection").font(.headline).padding(.horizontal)
                         
                         ForEach(inventoryVM.books) { book in
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(book.title).font(.headline)
-                                Text(book.author).font(.subheadline).foregroundColor(.secondary)
-                                Text(String(format: "$%.2f", book.price))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.blue)
+                            HStack {
+                                Image(book.imageName)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 70, height: 100)
+                                    .cornerRadius(15)
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(book.title).font(.headline)
+                                    Text(book.author).font(.subheadline).foregroundColor(.secondary)
+                                    Text(String(format: "$%.2f", book.price))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.blue)
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color(UIColor.systemBackground))
+                                .cornerRadius(10)
+                                .padding(.horizontal)
                             }
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(UIColor.systemBackground))
-                            .cornerRadius(10)
                             .padding(.horizontal)
                         }
                     }
