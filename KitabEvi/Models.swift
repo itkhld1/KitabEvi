@@ -24,7 +24,8 @@ struct Book: Identifiable {
     var title: String
     var author: String
     var price: Double
-    var imageName: String
+    var imageName: String // For default assets
+    var imageData: Data?  // For custom gallery photos
 }
 
 // analytics model

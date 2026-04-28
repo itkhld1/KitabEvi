@@ -14,6 +14,8 @@ struct AdminDashboardView: View {
     @ObservedObject var inventoryVM: InventoryViewModel
     @ObservedObject var analyticsVM: AnalyticsViewModel
     
+    @State private var showingAddBook = false
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -24,12 +26,22 @@ struct AdminDashboardView: View {
                         
                         ForEach(inventoryVM.books) { book in
                             NavigationLink(destination: EditBookView(inventoryVM: inventoryVM, bookID: book.id)) {
-                                HStack {
-                                    Image(book.imageName)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 35, height: 50)
-                                        .cornerRadius(4)
+                                HStack(spacing: 15) {
+                                    // Image Display Logic
+                                    if let data = book.imageData, let uiImage = UIImage(data: data) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 40, height: 60)
+                                            .cornerRadius(4)
+                                    } else {
+                                        Image(book.imageName)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 40, height: 60)
+                                            .cornerRadius(4)
+                                    }
+                                    
                                     VStack(alignment: .leading) {
                                         Text(book.title).font(.body).foregroundColor(.primary)
                                         Text(book.author).font(.caption).foregroundColor(.secondary)
@@ -48,6 +60,7 @@ struct AdminDashboardView: View {
                             Divider()
                         }
                     }
+                    .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(10)
                     .padding(.horizontal)
                     
@@ -105,9 +118,19 @@ struct AdminDashboardView: View {
             .navigationTitle("Admin Panel")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingAddBook = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Logout") { authViewModel.logout() }
                 }
+            }
+            .sheet(isPresented: $showingAddBook) {
+                AddBookView(inventoryVM: inventoryVM)
             }
         }
     }

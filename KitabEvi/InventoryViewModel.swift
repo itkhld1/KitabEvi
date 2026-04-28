@@ -9,16 +9,14 @@ import Foundation
 internal import Combine
 
 class InventoryViewModel: ObservableObject {
-    // @Published means whenever this array changes, the UI automatically updates
     @Published var books: [Book] = []
     
-    // Golden Data
+    // Golden Data with specific asset names
     private let goldenData: [Book] = [
-        Book(title: "Saatleri Ayarlama Enstitüsü", author: "Ahmet Hamdi Tanpınar", price: 185.00, imageName: "Saatleri Ayarlama Enstitüsü"),
+        Book(title: "Saatleri Ayarlama Enstitüsü", author: "Ahmet Hamdi Tanpınar", price: 185.00, imageName: "Saatleri Ayarlama Enstitüsü"),
         Book(title: "My Name is Red", author: "Orhan Pamuk", price: 210.00, imageName: "My Name is Red"),
         Book(title: "White Castle", author: "Orhan Pamuk", price: 195.50, imageName: "the white castle")
     ]
-    
     
     // Junk Data
     private let junkData: [Book] = [
@@ -31,31 +29,42 @@ class InventoryViewModel: ObservableObject {
         self.books = junkData
     }
     
-    // Instantly restores the perfect, sales-ready data
-        func resetToGoldenState() {
-            self.books = goldenData
-        }
+    func resetToGoldenState() {
+        self.books = goldenData
+    }
     
     func addRandomJunk() {
-            let randomTitles = ["qweqwe", "test_123", "do_not_delete", "null", "undefined"]
-            let randomPrice = Double.random(in: 0...10000)
-            
-            let newJunkBook = Book(
-                title: randomTitles.randomElement() ?? "error",
-                author: "unknown",
-                price: randomPrice,
-                imageName: "random"
-            )
-            self.books.append(newJunkBook)
-        }
+        let randomTitles = ["qweqwe", "test_123", "do_not_delete", "null", "undefined"]
+        let randomPrice = Double.random(in: 0...10000)
+        
+        let newJunkBook = Book(
+            title: randomTitles.randomElement() ?? "error",
+            author: "unknown",
+            price: randomPrice,
+            imageName: "random"
+        )
+        self.books.append(newJunkBook)
+    }
     
-    // Allows the Admin to save edits made to a specific book
-    func updateBook(id: UUID, newTitle: String, newAuthor: String, newPrice: Double, newImageName: String) {
+    // New function to add a book from the UI
+    func addBook(title: String, author: String, price: Double, imageName: String, imageData: Data?) {
+        let newBook = Book(
+            title: title,
+            author: author,
+            price: price,
+            imageName: imageName,
+            imageData: imageData
+        )
+        books.append(newBook)
+    }
+    
+    func updateBook(id: UUID, newTitle: String, newAuthor: String, newPrice: Double, newImageName: String, newImageData: Data?) {
         if let index = books.firstIndex(where: { $0.id == id }) {
             books[index].title = newTitle
             books[index].author = newAuthor
             books[index].price = newPrice
             books[index].imageName = newImageName
+            books[index].imageData = newImageData
         }
     }
 }

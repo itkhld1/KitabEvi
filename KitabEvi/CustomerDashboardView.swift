@@ -38,25 +38,39 @@ struct CustomerDashboardView: View {
                         Text("Available Collection").font(.headline).padding(.horizontal)
                         
                         ForEach(inventoryVM.books) { book in
-                            HStack {
-                                Image(book.imageName)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 70, height: 100)
-                                    .cornerRadius(15)
+                            HStack(spacing: 15) {
+                                // Image Display
+                                if let data = book.imageData, let uiImage = UIImage(data: data) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 120)
+                                        .cornerRadius(8)
+                                        .shadow(radius: 2)
+                                } else {
+                                    Image(book.imageName)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 120)
+                                        .cornerRadius(8)
+                                        .shadow(radius: 2)
+                                }
+                                
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text(book.title).font(.headline)
                                     Text(book.author).font(.subheadline).foregroundColor(.secondary)
+                                    Spacer()
                                     Text(String(format: "$%.2f", book.price))
                                         .fontWeight(.bold)
                                         .foregroundColor(.blue)
                                 }
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color(UIColor.systemBackground))
-                                .cornerRadius(10)
-                                .padding(.horizontal)
+                                .padding(.vertical, 5)
+                                
+                                Spacer()
                             }
+                            .padding()
+                            .background(Color(UIColor.systemBackground))
+                            .cornerRadius(10)
                             .padding(.horizontal)
                         }
                     }
