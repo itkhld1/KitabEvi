@@ -5,7 +5,7 @@
 //  Created by itkhld on 22.04.2026.
 //
 
-import SwiftUI
+internal import SwiftUI
 import Charts
 
 struct AdminDashboardView: View {
@@ -25,38 +25,47 @@ struct AdminDashboardView: View {
                         Text("Inventory").font(.headline).padding(.horizontal)
                         
                         ForEach(inventoryVM.books) { book in
-                            NavigationLink(destination: EditBookView(inventoryVM: inventoryVM, bookID: book.id)) {
-                                HStack(spacing: 15) {
-                                    // Image Display Logic
-                                    if let data = book.imageData, let uiImage = UIImage(data: data) {
-                                        Image(uiImage: uiImage)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 40, height: 60)
-                                            .cornerRadius(4)
-                                    } else {
-                                        Image(book.imageName)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 40, height: 60)
-                                            .cornerRadius(4)
+                            HStack(spacing: 15) {
+                                NavigationLink(destination: EditBookView(inventoryVM: inventoryVM, bookID: book.id)) {
+                                    HStack(spacing: 15) {
+                                        if let data = book.imageData, let uiImage = UIImage(data: data) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 40, height: 60)
+                                                .cornerRadius(4)
+                                        } else {
+                                            Image(book.imageName)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 40, height: 60)
+                                                .cornerRadius(4)
+                                        }
+                                        
+                                        VStack(alignment: .leading) {
+                                            Text(book.title).font(.body).foregroundColor(.primary)
+                                            Text(book.author).font(.caption).foregroundColor(.secondary)
+                                        }
                                     }
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text(book.title).font(.body).foregroundColor(.primary)
-                                        Text(book.author).font(.caption).foregroundColor(.secondary)
-                                    }
-                                    Spacer()
-                                    Text(String(format: "$%.2f", book.price))
-                                        .font(.body)
-                                        .foregroundColor(.primary)
-                                    Image(systemName: "chevron.right")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
                                 }
-                                .padding()
-                                .background(Color(UIColor.systemBackground))
+                                
+                                Spacer()
+                                
+                                Text(String(format: "$%.2f", book.price))
+                                    .font(.body)
+                                    .foregroundColor(.primary)
+                                
+                                Button(role: .destructive) {
+                                    if let index = inventoryVM.books.firstIndex(where: { $0.id == book.id }) {
+                                        inventoryVM.books.remove(at: index)
+                                    }
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
+                                }
                             }
+                            .padding()
+                            
                             Divider()
                         }
                     }
@@ -66,12 +75,12 @@ struct AdminDashboardView: View {
                     
                     Divider().padding(.horizontal)
                     
-                    // Middle: Admin Revenue Chart
+                    // Middle: Admin Sales Chart (Updated to match text requirement)
                     VStack(spacing: 15) {
-                        Text("Monthly Revenue (Admin Only)").font(.headline)
-                        Chart(analyticsVM.monthlyRevenue) { stat in
-                            LineMark(x: .value("Month", stat.month), y: .value("Revenue", stat.amount))
-                                .interpolationMethod(.catmullRom)
+                        Text("Monthly Sales Analytics").font(.headline)
+                        Chart(analyticsVM.monthlySales) { stat in
+                            BarMark(x: .value("Month", stat.month), y: .value("Sales", stat.amount))
+                                .foregroundStyle(Color.orange.gradient)
                         }
                         .frame(height: 200)
                     }

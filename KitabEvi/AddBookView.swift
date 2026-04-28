@@ -5,7 +5,7 @@
 //  Created by itkhld on 27.04.2026.
 //
 
-import SwiftUI
+internal import SwiftUI
 import PhotosUI
 
 struct AddBookView: View {

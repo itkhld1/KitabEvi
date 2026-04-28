@@ -7,6 +7,7 @@
 
 import Foundation
 internal import Combine
+internal import SwiftUI
 
 class InventoryViewModel: ObservableObject {
     @Published var books: [Book] = []
@@ -66,5 +67,9 @@ class InventoryViewModel: ObservableObject {
             books[index].imageName = newImageName
             books[index].imageData = newImageData
         }
+    }
+    
+    func deleteBook(at offsets: IndexSet) {
+        books.remove(atOffsets: offsets)
     }
 }

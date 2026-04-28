@@ -39,12 +39,13 @@ The primary goal of this app is to demonstrate **system resilience and data inte
 ### 3. Views (UI Layers)
 - **RootView:** The central router. It listens to the `AuthenticationViewModel` and decides whether to show the Login screen, the Admin Dashboard, or the Customer Dashboard.
 - **AdminDashboardView:** A comprehensive panel for management.
-    - Includes **Revenue Charts** (LineMark).
-    - Features an editable inventory list.
+    - Includes **Sales Analytics Charts** (BarMark).
+    - Features an editable inventory list with **Swipe-to-Delete** functionality.
     - Contains the magic **Stress Test** and **Admin Reset** controls.
-- **CustomerDashboardView:** A polished, read-only storefront.
-    - Shows **Sales Impact Charts** (BarMark).
-    - Displays the collection with high-quality book covers.
+- **CustomerDashboardView:** A polished e-commerce storefront.
+    - Shows **Market Insight Charts** (BarMark).
+    - Features a **Shopping Cart** system with **Checkout Simulation**.
+    - Displays the collection with high-quality book covers and "Add to Cart" functionality.
 - **AddBookView:** Utilizes `PhotosUI` and `PhotosPicker` to allow admins to upload real book covers from the device gallery.
 - **EditBookView:** Allows granular editing of book titles, authors, prices, and images.
 
